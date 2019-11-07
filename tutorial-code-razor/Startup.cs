@@ -30,7 +30,9 @@ namespace tutorial_code_razor
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddReact();
 
-			services.AddRazorPages();
+            services.AddSession();
+            services.AddMemoryCache();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,7 +76,7 @@ namespace tutorial_code_razor
 			});
 
 			app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthorization();
