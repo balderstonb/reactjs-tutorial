@@ -24,6 +24,11 @@ namespace tutorial_code_razor.Pages
 
 		}
 
+        public void OnPost()
+        {
+            var comments = HttpContext.Session.GetComments("comments");
+        }
+
 		public JsonResult OnGetComments()
 		{
             var comments = HttpContext.Session.GetComments("comments");
