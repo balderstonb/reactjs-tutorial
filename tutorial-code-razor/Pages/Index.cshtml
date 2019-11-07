@@ -1,4 +1,5 @@
 @page "{handler?}"
+@using Microsoft.AspNetCore.Antiforgery
 @model IndexModel
 @{
     ViewData["Title"] = "Home page";
@@ -9,12 +10,13 @@
     <title>Hello React</title>
 </head>
 <body>
+    @inject IAntiforgery Antiforgery
     @Html.React("CommentBox", new
     {
         initialData = Model.Comments,
         url = Url.Page("Index", "Comments"),
         submitUrl = Url.Page("Index", "AddComment"),
-        pollInterval = 2000,
+        antiforgeryToken = Antiforgery.GetAndStoreTokens(HttpContext).RequestToken
     })
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/16.8.0/umd/react.development.js"></script>
     <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.0/umd/react-dom.development.js"></script>
