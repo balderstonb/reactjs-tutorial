@@ -25,7 +25,8 @@
 		data.append('text', comment.text);
 
 		var xhr = new XMLHttpRequest();
-		xhr.open('post', this.props.submitUrl, true);
+        xhr.open('post', this.props.submitUrl, true);
+        xhr.setRequestHeader('RequestVerificationToken', this.props.antiforgeryToken);
 		xhr.onload = function() {
 			this.loadCommentsFromServer();
 		}.bind(this);
@@ -33,7 +34,7 @@
 	};
 
 	componentDidMount() {
-		window.setInterval(this.loadCommentsFromServer, this.props.pollInterval);
+		//window.setInterval(this.loadCommentsFromServer, this.props.pollInterval);
 	}
 
 	render() {
