@@ -12,42 +12,14 @@ namespace tutorial_code_razor.Pages
 	public class IndexModel : PageModel
 	{
 		private readonly ILogger<IndexModel> _logger;
-		private readonly IList<CommentModel> _comments;
 
-		public IEnumerable<CommentModel> Comments
-		{
-			get
-			{
-				return _comments;
-			}
-		}
-
+		public List<CommentModel> Comments { get; set; }
 
 		public IndexModel(ILogger<IndexModel> logger)
 		{
 			_logger = logger;
 
-			_comments = new List<CommentModel>
-			{
-				new CommentModel
-				{
-					Id = 1,
-					Author = "Daniel Lo Nigro",
-					Text = "Hello ReactJS.NET World!"
-				},
-				new CommentModel
-				{
-					Id = 2,
-					Author = "Pete Hunt",
-					Text = "This is one comment"
-				},
-				new CommentModel
-				{
-					Id = 3,
-					Author = "Jordan Walke",
-					Text = "This is *another* comment"
-				},
-			};
+            Comments = new List<CommentModel>();
 		}
 
 		public void OnGet()
@@ -57,13 +29,14 @@ namespace tutorial_code_razor.Pages
 
 		public JsonResult OnGetComments()
 		{
-			return new JsonResult(_comments);
+			return new JsonResult(Comments);
 		}
 
 		public IActionResult OnPostAddComment(CommentModel comment)
 		{
-			comment.Id = _comments.Count + 1;
-			_comments.Add(comment);
+			comment.Id = Comments.Count + 1;
+            Comments.Add(comment);
+
 			return Content("Success :)");
 		}
 	}
