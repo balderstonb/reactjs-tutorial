@@ -1,15 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using tutorial_code_razor.Models;
 
 namespace tutorial_code_razor.Pages
 {
-	public class IndexModel : PageModel
+    public class IndexModel : PageModel
 	{
 		private readonly ILogger<IndexModel> _logger;
 
@@ -20,7 +17,7 @@ namespace tutorial_code_razor.Pages
 			_logger = logger;
 
             Comments = new List<CommentModel>();
-		}
+        }
 
 		public void OnGet()
 		{
@@ -29,15 +26,21 @@ namespace tutorial_code_razor.Pages
 
 		public JsonResult OnGetComments()
 		{
-			return new JsonResult(Comments);
+            var comments = HttpContext.Session.GetComments("comments");
+
+			return new JsonResult(comments);
 		}
 
 		public IActionResult OnPostAddComment(CommentModel comment)
 		{
-			comment.Id = Comments.Count + 1;
-            Comments.Add(comment);
+            var comments = HttpContext.Session.GetComments("comments") ?? new List<CommentModel>();
 
-			return Content("Success :)");
+            comment.Id = comments.Count + 1;
+            comments.Add(comment);
+
+            HttpContext.Session.SetComments("comments", comments);
+
+			return Content("Success");
 		}
 	}
 }
